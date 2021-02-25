@@ -1,10 +1,10 @@
 [
     {
-        "caption": "FontCycler: Next Font",
+        "keys": ["f10"],
         "command": "next_font"
     },
     {
-        "caption": "FontCycler: Prev Font",
+        "keys": ["shift+f10"],
         "command": "next_font",
         "args": {
             "delta": -1

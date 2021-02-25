@@ -15,16 +15,27 @@
                         "caption": "FontCycler",
                         "children":
                         [
-                            {
-                                "command": "next_font",
-                                "caption": "Next Font"
+                             {
+                                "caption": "README",
+                                "command": "open_file",
+                                "args": {"file": "${packages}/FontCycler/README.md"}
                             },
                             { "caption": "-" },
                             {
-                                "command": "previous_font",
-                                "caption": "Previous Font"
+                                "caption": "Settings",
+                                "command": "edit_settings",
+                                "mnemonic": "S",
+                                "args": {
+                                    "base_file": "${packages}/FontCycler/FontCycler.sublime-settings",
+                                    "default": "{\n\t$0\n}\n"
+                                }
                             },
-                            { "caption": "-" }
+                            {
+                                "caption": "Key Bindings",
+                                "command": "edit_settings",
+                                "mnemonic": "K",
+                                "args": {"base_file": "${packages}/FontCycler/keymap/Default ($platform).sublime-keymap", "default": "[\n\t$0\n]\n"}
+                            }
                         ]
                     }
                 ]
