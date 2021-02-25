@@ -3,9 +3,7 @@ import sublime
 import sublime_plugin
 
 
-def next_font_from_settings(delta, user_settings_file, user_settings):
-    pkg_settings_file = 'FontCycler.sublime-settings'
-    pkg_settings = sublime.load_settings(pkg_settings_file)
+def update_font(delta, user_settings_file, user_settings, pkg_settings):
     font_list = pkg_settings.get('font_list', [])
     if not font_list:
         sublime.status_message("FontCycle: There is no font to choose from")
@@ -42,13 +40,20 @@ def next_font_from_settings(delta, user_settings_file, user_settings):
         if key in font and user_settings.has(key):
             user_settings.set(key, font[key])
     sublime.save_settings(user_settings_file)
-
     log_view_font(sublime.active_window().active_view().settings())
-
 
 def log_view_font(view_settings):
     sublime.status_message('Font Face: %s:%d' % (
             view_settings.get('font_face'), view_settings.get('font_size')))
+
+def next_font_from_settings(delta, user_settings_file, user_settings):
+    def update_current_font():
+        update_font(0, user_settings_file, user_settings, pkg_settings)
+
+    pkg_settings = sublime.load_settings('FontCycler.sublime-settings')
+    update_font(delta, user_settings_file, user_settings, pkg_settings)
+    pkg_settings.clear_on_change('font_list')
+    pkg_settings.add_on_change('font_list', update_current_font)
 
 def get_syntax_special_file(view_settings):
     syntax, _ = os.path.splitext(os.path.basename(view_settings.get('syntax')))
