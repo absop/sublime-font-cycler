@@ -41,11 +41,9 @@ def update_font(delta, user_settings_file, user_settings, pkg_settings):
         if key in font and user_settings.has(key):
             user_settings.set(key, font[key])
     sublime.save_settings(user_settings_file)
-    log_view_font(sublime.active_window().active_view().settings())
-
-def log_view_font(view_settings):
+    s = sublime.active_window().active_view().settings()
     sublime.status_message('Font Face: %s:%d' % (
-            view_settings.get('font_face'), view_settings.get('font_size')))
+            s.get('font_face'), s.get('font_size')))
 
 def next_font_from_settings(delta, user_settings_file, user_settings):
     def update_current_font():
