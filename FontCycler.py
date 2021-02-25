@@ -2,6 +2,14 @@ import os
 import sublime
 import sublime_plugin
 
+pkg_font_options = (
+    'font_face',
+    'font_size',
+    'line_padding_bottom',
+    'line_padding_top',
+    'word_wrap',
+    'wrap_width'
+)
 
 def update_font(delta, user_settings_file, user_settings, pkg_settings):
     font_list = pkg_settings.get('font_list', [])
@@ -29,14 +37,7 @@ def update_font(delta, user_settings_file, user_settings, pkg_settings):
     font_index %= font_list_length
 
     font = font_list[font_index]
-    for key in (
-        'font_face',
-        'font_size',
-        'line_padding_bottom',
-        'line_padding_top',
-        'word_wrap',
-        'wrap_width'
-    ):
+    for key in pkg_font_options:
         if key in font and user_settings.has(key):
             user_settings.set(key, font[key])
     sublime.save_settings(user_settings_file)
@@ -77,17 +78,6 @@ class ShowCurrentFontCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         view_settings = self.view.settings()
         sublime.message_dialog(
-            "font_face: %s\n"
-            "font_size: %d\n"
-            "word_wrap: %s\n"
-            "wrap_width: %d\n"
-            "line_padding_bottom: %d\n"
-            "line_padding_top: %d" % (
-                view_settings.get('font_face'),
-                view_settings.get('font_size'),
-                view_settings.get('word_wrap'),
-                view_settings.get('wrap_width'),
-                view_settings.get('line_padding_bottom'),
-                view_settings.get('line_padding_top')
-                )
+            '\n'.join("%s: %s" % (opt, view_settings.get(opt))
+                for opt in pkg_font_options)
             )
