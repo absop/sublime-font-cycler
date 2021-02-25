@@ -7,26 +7,21 @@ def next_font_from_settings(delta, user_settings_file, user_settings):
     pkg_settings_file = 'FontCycler.sublime-settings'
     pkg_settings = sublime.load_settings(pkg_settings_file)
     font_list = pkg_settings.get('font_list', [])
-    font_index = pkg_settings.get('font_index', 0)
     if not font_list:
         sublime.status_message("FontCycle: There is no font to choose from")
         return
 
-    font_list_length = len(font_list)
-    if font_index >= font_list_length or font_index < 0:
-        font_index = 0
-
+    font_index = 0
     font_found = False
+    font_list_length = len(font_list)
     user_font_face = user_settings.get('font_face')
-    for i, _ in enumerate(font_list, font_index):
-        index = i % font_list_length
-        value = font_list[index]
-        if not isinstance(value, dict):
-            if type(value) != type(''):
+    for index, font in enumerate(font_list):
+        if not isinstance(font, dict):
+            if type(font) != type(''):
                 sublime.error_message(
                     "******************* FontCycler *******************\n"
                     "The elements of font_list must be a string or dict.")
-            font_list[index] = { 'font_face': value }
+            font_list[index] = { 'font_face': font }
         font_face = font_list[index].get('font_face')
         if not font_found and font_face == user_font_face:
             font_index = index
@@ -46,10 +41,7 @@ def next_font_from_settings(delta, user_settings_file, user_settings):
     ):
         if key in font and user_settings.has(key):
             user_settings.set(key, font[key])
-
-    pkg_settings.set('font_index', font_index)
     sublime.save_settings(user_settings_file)
-    sublime.save_settings(pkg_settings_file)
 
     log_view_font(sublime.active_window().active_view().settings())
 
