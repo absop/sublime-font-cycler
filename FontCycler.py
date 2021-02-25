@@ -66,3 +66,23 @@ class NextFontCommand(sublime_plugin.WindowCommand):
             preferences_file = 'Preferences.sublime-settings'
             preferences = sublime.load_settings(preferences_file)
             next_font_from_settings(delta, preferences_file, preferences)
+
+
+class ShowCurrentFontCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        view_settings = self.view.settings()
+        sublime.message_dialog(
+            "font_face: %s\n"
+            "font_size: %d\n"
+            "word_wrap: %s\n"
+            "wrap_width: %d\n"
+            "line_padding_bottom: %d\n"
+            "line_padding_top: %d" % (
+                view_settings.get('font_face'),
+                view_settings.get('font_size'),
+                view_settings.get('word_wrap'),
+                view_settings.get('wrap_width'),
+                view_settings.get('line_padding_bottom'),
+                view_settings.get('line_padding_top')
+                )
+            )

@@ -9,5 +9,9 @@
         "args": {
             "delta": -1
         }
+    },
+    {
+        "caption": "FontCycler: Show Current Font",
+        "command": "show_current_font"
     }
 ]
