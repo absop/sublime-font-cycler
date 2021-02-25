@@ -1,5 +1,13 @@
 [
     {
+        "caption": "Preferences: FontCycler Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/FontCycler/FontCycler.sublime-settings",
+            "default": "{\n\t$0\n}\n"
+        }
+    },
+    {
         "caption": "FontCycler: Next Font",
         "command": "next_font"
     },
